@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/index.ts"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,23 @@
   "bugs": {
     "url": "https://github.com/gabriel-bianchessi/atividade-final/issues"
   },
-  "homepage": "https://github.com/gabriel-bianchessi/atividade-final#readme"
+  "homepage": "https://github.com/gabriel-bianchessi/atividade-final#readme",
+  "dependencies": {
+    "@prisma/client": "^4.5.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.3",
+    "@types/cors": "^2.8.12",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.14",
+    "@types/node": "^18.11.9",
+    "nodemon": "^2.0.20",
+    "prisma": "^4.5.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.8.4"
+  }
 }
