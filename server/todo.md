@@ -61,3 +61,6 @@ A ideia do projeto é criar um blog para conteúdos de programação
 * commentId?
 * createdAt
 * visible
+
+# To-do: 
+Bearer Auth nos header
