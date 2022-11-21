@@ -76,7 +76,6 @@ router.post('/login', async (req: Request, res: Response) => {
       username: true,
       email: true,
       password: true,
-
     },
   })
 
@@ -126,6 +125,7 @@ router.post('/refresh', async (req: Request, res: Response) => {
   }
 
   const token = await redis.get(oldToken)
+  await redis.del(oldToken)
 
   if (!token) {
     return res.status(401).json({message: 'Invalid refresh token'})
