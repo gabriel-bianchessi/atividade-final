@@ -12,7 +12,7 @@ const redis = new Redis({ port: 8000 })
 const privateKey = fs.readFileSync(__dirname + '/../../certs/jwtRS256.key', {encoding: 'utf-8'})
 const publicKey = fs.readFileSync(__dirname + '/../../certs/jwtRS256.key.pub', {encoding: 'utf-8'})
 
-const createToken = (payload: any) => sign(payload, privateKey, { algorithm: 'RS256', expiresIn: '30s' })
+const createToken = (payload: any) => sign(payload, privateKey, { algorithm: 'RS256', expiresIn: '15m' })
 const createRefreshToken = (payload: any) => sign(payload, privateKey + publicKey, { algorithm: 'RS256', expiresIn: '1d' })
 const storeToken = (refres_token: string, access_token: string) => redis.set(refres_token, access_token, 'EX', ms('60d'))
 
@@ -93,9 +93,8 @@ router.post('/login', async (req: Request, res: Response) => {
     })
   }
 
-  const dataHost = {}
-  const access_token = createToken({dataHost})
-  const refresh_token = createRefreshToken({dataHost})
+  const access_token = createToken({ id: user.id })
+  const refresh_token = createRefreshToken({ id: user.id })
   await storeToken(refresh_token, access_token)
   return res.json({access_token, refresh_token})
 })

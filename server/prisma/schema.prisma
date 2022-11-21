@@ -37,7 +37,7 @@ model Post {
   authorId  String
   author    User       @relation(fields: [authorId], references: [id])
   comments  Comment[]
-  Reaction  Reaction[]
+  reactions Reaction[]
 }
 
 model Comment {
