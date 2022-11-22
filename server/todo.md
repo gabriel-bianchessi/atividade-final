@@ -64,3 +64,5 @@ A ideia do projeto é criar um blog para conteúdos de programação
 
 # To-do: 
 Bearer Auth nos header
+
+BSON para mandar imagens

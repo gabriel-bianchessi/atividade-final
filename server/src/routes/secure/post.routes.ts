@@ -1,26 +1,20 @@
 import { Request, Response, Router } from "express"
 import fs from "fs"
 import { JwtPayload, verify } from "jsonwebtoken"
-import { JwtDecoded } from "../types/jwtDecoded"
-import { PrismaClient } from "@prisma/client"
+import { JwtDecoded } from "../../@types/jwtDecoded"
+import { Post, PrismaClient } from "@prisma/client"
+import path from "path"
 
 const prisma = new PrismaClient()
 
-const publicKey = fs.readFileSync(__dirname + "/../../certs/jwtRS256.key.pub", {
+const publicKey = fs.readFileSync(path.join(__dirname, "../../../",  "certs", "jwtRS256.key.pub") , {
   encoding: "utf-8",
 })
 
 const router = Router()
 
 router.post("/create", async (req: Request, res: Response) => {
-  const token = req.headers.authorization?.split(" ")[1]
-  if (!token) {
-    return res.status(401).json({ message: "Missing authorization header" })
-  }
-  const decoded: JwtPayload | string = verify(token, publicKey, {
-    algorithms: ["RS256"],
-  })
-  const userId = (decoded as JwtDecoded).id
+  const user = req.currentUser
   const { title, content } = req.body
 
   if (!title || !content) {
@@ -32,7 +26,7 @@ router.post("/create", async (req: Request, res: Response) => {
       title,
       content,
       author: {
-        connect: { id: userId },
+        connect: { id: user?.id },
       },
     },
     select: {
@@ -89,22 +83,21 @@ router.get("/all", async (req: Request, res: Response) => {
             id: true,
             type: true,
           },
+          where: {
+            visible: true
+          }
         },
-        comments: {
+        _count: {
           select: {
-            id: true,
-            content: true,
-            replyTo: true,
-            reactions: {
-              select: {
-                id: true,
-                type: true,
-              },
-            },
-          },
+            comments: true,
+            reactions: true
+          }
+        }
         },
-      },
-    })
+        where: {
+          visible: true
+        }
+      })
 
     return res.status(200).json(posts)
   } catch (err) {
@@ -132,7 +125,7 @@ router.get("/:postId", async (req: Request, res: Response) => {
     }
     const postId = req.params.postId
 
-    const post = prisma.post.findFirst({
+    const post = await prisma.post.findFirst({
       where: {
         id: postId,
         visible: true,
@@ -167,11 +160,50 @@ router.get("/:postId", async (req: Request, res: Response) => {
             },
           },
         },
+        _count: {
+          select: {
+            comments: true,
+            reactions: true
+          }
+        }
       },
     })
+
+    return res.json(post)
+
   } catch (error) {
     return res.json({ Erro: error })
   }
+})
+
+router.put('/:id', async (req: Request, res: Response) => {
+  const user = req.currentUser
+  const {title, content} = req.body
+  const postId = req.params.id
+
+  const postBelongsUser = await prisma.post.findFirst({
+    where: {
+      id: postId,
+      authorId: user?.id
+    }
+  })
+
+  if(!postBelongsUser) {
+    return res.status(401).json({message: 'Esse post não pertence ao usuário'})
+  }
+
+  const updatedPost = await prisma.post.update({
+    where: { 
+      id: postId,
+    },
+    data: {
+      title,
+      content,
+      updatedAt: new Date()
+    }
+  })
+  
+  return res.json(updatedPost)
 })
 
 export default router
