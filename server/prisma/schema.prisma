@@ -43,10 +43,10 @@ model Post {
 model Comment {
   id        String     @id @default(uuid())
   content   String
-  replyTo   String?
   createdAt DateTime   @default(now())
   updatedAt DateTime?  @updatedAt
   visible   Boolean    @default(true)
+  replyTo   String?
   authorId  String
   author    User       @relation(fields: [authorId], references: [id])
   postId    String
@@ -56,7 +56,7 @@ model Comment {
 
 model Reaction {
   id        String    @id @default(uuid())
-  type      String
+  type      String    @default("like")
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
   visible   Boolean   @default(true)

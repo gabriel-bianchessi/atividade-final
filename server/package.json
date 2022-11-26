@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/gabriel-bianchessi/atividade-final#readme",
   "dependencies": {
-    "@prisma/client": "^4.5.0",
+    "@prisma/client": "^4.6.1",
     "@types/ms": "^0.7.31",
     "bcrypt": "^5.1.0",
     "cookie-parser": "^1.4.6",
@@ -40,7 +40,7 @@
     "@types/node": "^18.11.9",
     "@types/uuid": "^8.3.4",
     "nodemon": "^2.0.20",
-    "prisma": "^4.5.0",
+    "prisma": "^4.6.1",
     "ts-node": "^10.9.1",
     "typescript": "^4.8.4"
   }
