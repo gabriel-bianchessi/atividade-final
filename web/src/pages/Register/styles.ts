@@ -1,8 +1,8 @@
-import styled from 'styled-components'
+import styled from "styled-components"
 
 export const Container = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: column; 
   justify-content: center;
   align-items: center;
   height: 100%;
@@ -13,8 +13,6 @@ export const Container = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100%;
-
     background-color: #fff;
     padding: 2rem;
     border-radius: 4px;
@@ -30,6 +28,7 @@ export const Container = styled.div`
     height: 24px;
     color: #444;
     padding: 0 15px;
+    width: 70%;
   }
   
   input:focus {

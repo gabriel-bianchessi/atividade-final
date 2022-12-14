@@ -2,7 +2,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import "./App.css"
 import { ProtectedLayout } from "./components/ProtectedLayout"
 import { AuthProvider } from "./context/AuthProvider"
+import Home from "./pages/Home"
 import Login from "./pages/Login"
+import Register from "./pages/Register"
 
 function App() {
   return (
@@ -10,16 +12,12 @@ function App() {
       <AuthProvider>
         <BrowserRouter>
           <Routes>
-            <Route
-              path="/profile"
-              element={
-                <ProtectedLayout>
-                  <>
-                    <h2>Perfil hehehe</h2>
-                  </>
-                </ProtectedLayout>
-              }
-            />
+            <Route path="" element={
+              <ProtectedLayout>
+                <Route path="/" element={<Home />} />
+              </ProtectedLayout>
+            }/>
+            <Route path="/register" element={<Register />}></Route>
             <Route path="/login" element={<Login />} />
           </Routes>
         </BrowserRouter>

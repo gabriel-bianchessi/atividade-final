@@ -1,12 +1,15 @@
-import React from "react"
+import React, { PropsWithChildren } from "react"
 import { useAuth } from "../../context/AuthProvider/useAuth"
+import { Navigate } from "react-router-dom"
 
-export const ProtectedLayout = ( {children}: {children: JSX.Element} ) => {
+export const ProtectedLayout = ( {children}: {children: PropsWithChildren<any>} ) => {
   const auth = useAuth()
 
   if(!auth.email) {
-    return <h1>Você não tem acesso à essa página</h1>
+    return <Navigate to="/login" />
   }
 
-  return children
+  return (
+    children
+  )
 }

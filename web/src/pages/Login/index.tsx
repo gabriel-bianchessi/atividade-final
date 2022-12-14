@@ -1,9 +1,10 @@
 import React from "react" 
+import { Link } from "react-router-dom"
 import { useAuth } from "../../context/AuthProvider/useAuth"
+import { Container } from "./styles"
 
 export default function Login() {
   const auth = useAuth()
-  const navigate = 
 
   async function onFinish (values: {email: string, password: string}) {
     try {
@@ -15,12 +16,17 @@ export default function Login() {
 
   return (
     <>
-      <h1>Login</h1>
-      <label htmlFor="email">Email</label>
-      <input type="email" name="email" id="email" />
-      <label htmlFor="password">Senha</label>
-      <input type="password" name="password" id="password" />
-      <button>Entrar</button>
+      <Container>
+        <form>
+          <h1>Login</h1>
+          <label htmlFor="email">Email</label>
+          <input type="email" name="email" id="email" />
+          <label htmlFor="password">Senha</label>
+          <input type="password" name="password" id="password" />
+          <button>Entrar</button>
+        </form>
+        <span>Ainda não tem uma conta? Clique <Link to={"/register"}>aqui</Link> para criar</span>
+      </Container>
     </>
   )
 }
