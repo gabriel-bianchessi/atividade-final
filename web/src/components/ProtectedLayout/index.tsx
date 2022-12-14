@@ -5,7 +5,8 @@ import { Navigate } from "react-router-dom"
 export const ProtectedLayout = ( {children}: {children: PropsWithChildren<any>} ) => {
   const auth = useAuth()
 
-  if(!auth.email) {
+  if(!auth.access_token) {
+    console.log(auth.access_token)
     return <Navigate to="/login" />
   }
 

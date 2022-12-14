@@ -1,28 +1,30 @@
 import React from "react" 
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useAuth } from "../../context/AuthProvider/useAuth"
 import { Container } from "./styles"
+import { useForm } from "react-hook-form"
 
 export default function Login() {
   const auth = useAuth()
+  const { register, handleSubmit } = useForm()
+  const navigate = useNavigate()
 
-  async function onFinish (values: {email: string, password: string}) {
-    try {
-      await auth.authenticate(values.email, values.password)
-    } catch(error: any) {
-      console.log("Usuário ou senha inválidos")
-    }
-  }
+  const onSubmit = handleSubmit(async (data) => {
+    const { email, password } = data
+    const response = await auth.authenticate(email, password)
+    if (!response?.access_token) return
+    navigate("/")
+  })
 
   return (
     <>
       <Container>
-        <form>
+        <form onSubmit={onSubmit}>
           <h1>Login</h1>
           <label htmlFor="email">Email</label>
-          <input type="email" name="email" id="email" />
+          <input type="email" id="email" {...register("email")}/>
           <label htmlFor="password">Senha</label>
-          <input type="password" name="password" id="password" />
+          <input type="password" id="password" {...register("password")} />
           <button>Entrar</button>
         </form>
         <span>Ainda não tem uma conta? Clique <Link to={"/register"}>aqui</Link> para criar</span>

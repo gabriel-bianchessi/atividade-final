@@ -14,7 +14,7 @@ function App() {
           <Routes>
             <Route path="" element={
               <ProtectedLayout>
-                <Route path="/" element={<Home />} />
+                <Home />
               </ProtectedLayout>
             }/>
             <Route path="/register" element={<Register />}></Route>
